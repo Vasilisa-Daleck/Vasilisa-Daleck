@@ -1,0 +1,107 @@
+#!/usr/bin/python3.6
+
+
+class WordEater:
+	def __init__(self):  #конструктор
+		self.counts = {'ли': 0, 'когда': 0, 'ль': 0, 'иначе': 0, 'похоже': 0, 'тогда': 0, 'все-таки': 0, 'если': 0, 'ну': 0, 'весьма': 0, 'нечто': 0}  # дикт
+		self.word_occ = []  #list
+		self.needed_words = {} #слова для анализа
+
+	def next_word(self, word):  # word - обобщенная переменная для каждого съеденного слова
+		self.word_occ.append(word)  #добавление ногового слова в list word_occ
+		if word in self.needed_words:
+			self.needed_words[word] += 1
+
+
+class Parser:
+	def __init__(self):
+		self.cur_buffer = ''
+		self.word_handler = None
+
+	def next_sym(self, char: str):
+		if char.isalpha():
+			self.cur_buffer += char
+
+		elif len(self.cur_buffer):
+			self.word_handler.next_word(self.cur_buffer.lower())
+			self.cur_buffer = ""
+
+
+parser = Parser()
+eater = WordEater()
+parser.word_handler = eater
+
+with open("C:\\Users\\Alice\\Desktop\\ФРАЙ В ТХТ\\чуб земли.txt") as file:
+	for line in file.readlines():
+		for ch in line:
+			parser.next_sym(ch)
+s = set(eater.word_occ)
+s = list(set(s))
+print("Количество уникальных слов", len(s))
+print("Уникальные слова: ", s)  #при ненадобности закоментить
+
+list_w = ['ли', 'когда', 'ль', 'иначе', 'похоже', 'тогда', 'все-таки', 'если', 'ну', 'весьма', 'нечто']
+for w in eater.word_occ:
+	if w in list_w:
+		if w not in eater.needed_words:
+			eater.needed_words[w] = 0
+		else:
+			eater.needed_words[w] += 1
+
+print("eater.needed_words: ", eater.needed_words)
+
+
+try:
+    print(round(eater.needed_words['ли']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('ли: 0%')
+
+try:
+    print(round(eater.needed_words['когда']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('когда: 0%')
+
+try:
+    print(round(eater.needed_words['ль']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('ль: 0%')
+
+try:
+    print(round(eater.needed_words['иначе']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('иначе: 0%')
+
+try:
+    print(round(eater.needed_words['похоже']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('ли: 0%')
+
+try:
+    print(round(eater.needed_words['тогда']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('тогда: 0%')
+
+try:
+    print(round(eater.needed_words['все-таки']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('все-таки: 0%')
+
+try:
+    print(round(eater.needed_words['если']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('если: 0%')
+
+try:
+    print(round(eater.needed_words['ну']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('ну: 0%')
+
+try:
+    print(round(eater.needed_words['весьма']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('весьма: 0%')
+
+try:
+    print(round(eater.needed_words['нечто']/len(eater.word_occ)*100, 2),'%')
+except KeyError:
+    print('нечто: 0%')
